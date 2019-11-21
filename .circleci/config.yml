@@ -10,8 +10,6 @@ jobs:
 
     working_directory: ~/dcard.m0u.work
     environment:
-      - SOURCE_BRANCH: src
-      - TARGET_BRANCH: master
       - ZIPFILE_NAME: dcard-code.tar.gz
     steps:
       - checkout
