@@ -40,13 +40,12 @@ jobs:
           command: |
             echo -e "DB_USER=${DB_USER}\nDB_PASS=${DB_PASS}\nDB_NAME=${DB_NAME}\nCHATROOM_ID=${CHATROOM_ID}\nLINE_BEARER=${LINE_BEARER}" > .env
 
-      - run:
-          name: Install pug-cli (Glocal)
-          command: sudo npm install pug-cli -g
-
-      - run:
-          name: Build Frontend Html
-          command: make html-pack
+#      - run:
+#          name: Install pug-cli (Glocal)
+#          command: sudo npm install pug-cli -g
+#      - run:
+#          name: Build Frontend Html
+#          command: make html-pack
 
       - run:
           name: Packing the codes
