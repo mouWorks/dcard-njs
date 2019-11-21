@@ -1,0 +1,20 @@
+{
+  "name": "dcard-njs",
+  "version": "1.0.0",
+  "description": "A Demo",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mouWorks/dcard-njs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mouWorks/dcard-njs/issues"
+  },
+  "homepage": "https://github.com/mouWorks/dcard-njs#readme"
+}
