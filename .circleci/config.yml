@@ -1,0 +1,94 @@
+version: 2.1
+
+orbs:
+  slack: circleci/slack@3.4.0
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:12.9
+
+    working_directory: ~/dcard.m0u.work
+    environment:
+      - SOURCE_BRANCH: src
+      - TARGET_BRANCH: master
+      - ZIPFILE_NAME: dcard-code.tar.gz
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "9e:b2:7d:7f:da:69:a4:7f:e6:a8:92:33:76:a1:31:e4" # DigitalOcean Manually created this key
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      - run:
+          name: Install dependencies
+          command: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: Show Current Location
+          command: pwd
+
+      - run:
+          name: Eject .Env file
+          command: |
+            echo -e "DB_USER=${DB_USER}\nDB_PASS=${DB_PASS}\nDB_NAME=${DB_NAME}\nCHATROOM_ID=${CHATROOM_ID}\nLINE_BEARER=${LINE_BEARER}" > .env
+
+      - run:
+          name: Install pug-cli (Glocal)
+          command: sudo npm install pug-cli -g
+
+      - run:
+          name: Build Frontend Html
+          command: make html-pack
+
+      - run:
+          name: Packing the codes
+          command: tar -czf /tmp/${ZIPFILE_NAME} .
+
+      - run:
+          name: Copy the Update Script
+          command: cp .circleci/circleci_update.sh /tmp
+
+      #      - run:
+      #          name: Adding SSH Keys
+      #          command: echo 'THE FINGERPRINT' >> ~/.ssh/known_hosts
+
+      # Note: this one we Manually setup the SSH key
+      # Create SSH-key @ DigitalOcean Server, then paste the pub key @CircleCI
+      - run:
+          name: Scp - Copy the file to remote server
+          command: scp -o StrictHostKeyChecking=no -P 22 /tmp/${ZIPFILE_NAME} /tmp/circleci_update.sh root@${PRODUCTION_SERVER}:/tmp
+
+      - run:
+          name: Make the Update
+          command: ssh root@${PRODUCTION_SERVER} " cd /tmp && chmod +x circleci_update.sh && ./circleci_update.sh "
+
+      - slack/status:
+          fail_only: true
+          failure_message: "Dcard CI fail !!"
+          webhook: ${SLACK_WEBHOOK} # Optional: Enter a specific webhook here or the default will use $SLACK_WEBHOOK
+
+      - slack/notify:
+          title: "NodeJS Deploy完成 @ dcard.m0u.work"
+          message: "Deployed by CircleCI"
+          color: "#42e2f4" # Optional: Assign custom colors for each notification
+          webhook: ${SLACK_WEBHOOK} # Optional: Enter a specific webhook here or the default will use $SLACK_WEBHOOK
+
+workflows:
+  version: 2.1
+  build_and_auto_deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master
