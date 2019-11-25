@@ -24,10 +24,11 @@ let query = function( sql, values ) {
                     } else {
                         resolve( rows )
                     }
-                    connection.release()  // 結束會話
+                    // connection.release()  // 結束會話
+                    connection.destroy()  // 結束會話 - use this otherwise CI hangs forever
                 })
             }
-        })
+        });
     })
 }
 
