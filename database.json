@@ -6,13 +6,6 @@
     "database": "mouWorks",
     "multipleStatements": true
   },
-  "circleci": {
-    "driver": "mysql",
-    "user": "root",
-    "password": "circleci",
-    "database": "mouWorks",
-    "multipleStatements": true
-  },
   "prod": {
     "driver": "mysql",
     "user": {

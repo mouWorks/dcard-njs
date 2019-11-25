@@ -10,7 +10,7 @@ jobs:
       - image: circleci/mariadb:10.3  #DB
         environment:
          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-         MYSQL_ROOT_PASSWORD: 'circleci'
+         MYSQL_ROOT_PASSWORD: ''
          MYSQL_DATABASE: 'mouWorks'
          TZ: "Asia/Taipei"  # Set The TimeZone
 
