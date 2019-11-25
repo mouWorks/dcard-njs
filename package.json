@@ -19,6 +19,7 @@
   "homepage": "https://github.com/mouWorks/dcard-njs#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "http-errors": "^1.7.3",
     "morgan": "^1.9.1",
