@@ -47,12 +47,13 @@ module.exports = {
         message += "<br/>============================<br/>";
 
         //反查 1分鐘內 Ip 被記錄了幾次
-        let visitedTimes = await this.getIpcount(ip, aMonAgoTimeStamp).catch(error => {
-            // console.log(error);
-            message += "Error when calculating Previous visit! check DB connection";
+        let visitedTimes = await this.getIpcount(ip, aMonAgoTimeStamp);
+
+        if(visitedTimes === false){
+            message += "[getIpCount] Error ! check DB connection";
             res.send(message);
             return;
-        });
+        }
 
         if(this.exceedLimit(visitedTimes, rules)){
             message += '<br/>Exceed Time Limit !!';
@@ -65,7 +66,7 @@ module.exports = {
 
         //Error case: if sth wrong
         if( ! recordIpResult){
-            message += "Error During Recording your IP ! check DB connection";
+            message += "[recordIp] Error ! check DB connection";
             res.send(message);
             return;
         }
@@ -82,7 +83,7 @@ module.exports = {
         console.log('Recording Current IP: ' + ip);
         const db = require('../modules/async-db');
 
-        let query = "INSERT INTO `dcard-log` SET ?";
+        let query = "INSERT INTO `dcard-logs` SET ?";
         let values = {
             ip: ip,
             queryString: '/demo',
@@ -107,15 +108,15 @@ module.exports = {
             ip, timestamp, '/demo'
         ];
 
-        // let result = await db.query(query, values);
+        try{
 
-        let result = await db.query(query, values).catch(error => {
-            // throw new Error(error);
+            let result = await db.query(query, values);
+            return result[0].Times;
+
+        }catch(error){
             console.log(error);
             return false;
-        });
-
-        return result[0].Times;
+        }
     },
 
 }//end of module exports
