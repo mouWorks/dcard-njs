@@ -7,10 +7,14 @@ jobs:
   build:
     docker:
       - image: circleci/node:12.9
+        environment:
+         DB_NAME: 'mouWorks'
+         DB_PASS: 'circleci'
+         DB_USER: 'root'
       - image: circleci/mariadb:10.3  #DB
         environment:
          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-         MYSQL_ROOT_PASSWORD: ''
+         MYSQL_ROOT_PASSWORD: 'circleci'
          MYSQL_DATABASE: 'mouWorks'
          TZ: "Asia/Taipei"  # Set The TimeZone
 
@@ -45,9 +49,13 @@ jobs:
           command: pwd
 
       - run:
-          name: Eject CI Environment File
-          command: |
-            echo -e "DB_USER=root\nDB_PASS=circleci\nDB_NAME=${DB_NAME}\nCHATROOM_ID=${CHATROOM_ID}\n" > .env
+          name: Grant 1 MySQL user
+          command:
+
+#      - run:
+#          name: Eject CI Environment File
+#          command: |
+#            echo -e "DB_USER=root\nDB_PASS=circleci\nDB_NAME=${DB_NAME}\nCHATROOM_ID=${CHATROOM_ID}\n" > .env
 
       - run:
           name: Just Run Migration command
@@ -63,8 +71,7 @@ jobs:
 
       - run:
           name: Eject .Env file
-          command: |
-            rm .env
+          command:
             echo -e "DB_USER=${DB_USER}\nDB_PASS=${DB_PASS}\nDB_NAME=${DB_NAME}\nCHATROOM_ID=${CHATROOM_ID}\n}" > .env
 
       - run:
