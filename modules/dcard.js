@@ -65,9 +65,9 @@ module.exports = {
     recordIp: async function(ip, timestamp){
 
         console.log('Recoding Current IP');
+        const db = require('async-db');
 
-        const db = require('../modules/async-db');
-
+        let query = "INSERT INTO `dcard-logs` SET ?";
         let values = {
             ip: ip,
             queryString: '/demo',
@@ -75,17 +75,14 @@ module.exports = {
             status: '200'
         };
 
-        let query = "INSERT INTO `dcard-logs` SET ?";
-
         let result = await db.query(query, values);
     },
 
     getIpcount: async function(ip, timestamp){
 
-        const db = require('../modules/async-db');
+        const db = require('async-db');
 
         let query = "SELECT COUNT(id) as Times FROM `dcard-logs` WHERE ip = ? AND timestamp > ? AND queryString = ?";
-
         let values = [
             ip, timestamp, '/demo'
         ];
