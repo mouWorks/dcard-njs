@@ -11,11 +11,15 @@ const path = require('path');
 
 let version = '0004';
 
-console.log('Hey Dcard'+ version);
+console.log('Hey Dcard ver:'+ version);
 
-let message = 'Dcard Demo @port' + version;
+let message = 'Dcard Demo @port 3003 : ver' + version;
 
 app.get('/', (req, res) => res.send(message));
+
+let DcardRouter = require('./routes/dcard');
+app.use(DcardRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
