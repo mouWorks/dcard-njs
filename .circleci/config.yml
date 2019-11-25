@@ -54,6 +54,10 @@ jobs:
           command: make migrate-ci
 
       - run:
+          name: Install Mocha for Nodejs Testing
+          command: sudo npm install mocha -g
+
+      - run:
           name: Run the Tests!
           command: make test
 
