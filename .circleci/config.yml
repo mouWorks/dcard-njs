@@ -57,7 +57,7 @@ jobs:
 #          command: make html-pack
       - run:
           name: Just Run Migration command
-          command: make migrate
+          command: make migrate-ci
 
       - run:
           name: Packing the codes

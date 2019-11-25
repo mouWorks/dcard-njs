@@ -48,6 +48,10 @@ test:
 migrate:
 	node node_modules/db-migrate/bin/db-migrate up
 
+# CircleCI Env
+migrate-ci:
+    node node_modules/db-migrate/bin/db-migrate up --config database.json -e circleci
+
 # Migration-Production
 migrate-prod:
 	node node_modules/db-migrate/bin/db-migrate up --config database.json -e prod
