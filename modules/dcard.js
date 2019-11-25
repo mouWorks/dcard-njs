@@ -33,9 +33,9 @@ module.exports = {
     },
 
     demoServer: async function(req, res){
-        let rules = 60;
+        let rules = 5;
         let ver = '0005';
-        let message = ver + " This is Dcard project Demo 11/25 <br>";
+        let message = ver + " This is Dcard project Demo 11/25 (5 for now) <br>";
 
         let ip  = req.header('x-forwarded-for') || req.connection.remoteAddress;
 
@@ -56,7 +56,7 @@ module.exports = {
         }
 
         if(this.exceedLimit(visitedTimes, rules)){
-            message += '<br/>Exceed Time Limit !!';
+            message += '<h1>Error ! EXCEED LIMIT !!</h1>';
             res.send(message);
             return;
         }

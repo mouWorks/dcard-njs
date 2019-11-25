@@ -7,12 +7,21 @@ jobs:
   build:
     docker:
       - image: circleci/node:12.9
+      - image: circleci/mariadb:10.3  #DB
+        environment:
+         MYSQL_ALLOW_EMPTY_PASSWORD: yes
+         MYSQL_ROOT_PASSWORD: 'circleci'
+         MYSQL_DATABASE: COMPANY_DB
+         TZ: "Asia/Taipei"  # Set The TimeZone
 
     working_directory: ~/dcard.m0u.work
     environment:
       - ZIPFILE_NAME: dcard-code.tar.gz
     steps:
       - checkout
+      - run:
+          name: Wait for DB to start
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
       - add_ssh_keys:
           fingerprints:
             - "9e:b2:7d:7f:da:69:a4:7f:e6:a8:92:33:76:a1:31:e4" # DigitalOcean Manually created this key
@@ -46,6 +55,9 @@ jobs:
 #      - run:
 #          name: Build Frontend Html
 #          command: make html-pack
+      - run:
+          name: Just Run Migration command
+          command: make migrate
 
       - run:
           name: Packing the codes
