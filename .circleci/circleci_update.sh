@@ -25,3 +25,6 @@ sudo mv /usr/share/nginx/dcard_deploy /usr/share/nginx/dcard
 cd  /usr/share/nginx/dcard
 
 make reload
+
+# Run Migration
+make migrate-prod
