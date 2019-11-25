@@ -5,6 +5,8 @@ SERVICE_NAME := dcard
 PORT := 3003
 CONFIG := ecosystem.config.js
 
+.PHONY: test
+
 build:
 	@echo ">>> Builing packages"
 	npm install
@@ -42,7 +44,11 @@ push: test
 	git push origin $(BRANCH)
 
 test:
-	node --check $(ENDPOINT)
+	node --check $(ENDPOINT) &&
+	node --check modules/async-db.js &&
+	node --check modules/dcard.js &&
+	node --check routes/dcard.js &&
+	mocha
 
 # Migration
 migrate:

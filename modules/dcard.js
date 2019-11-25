@@ -33,9 +33,9 @@ module.exports = {
     },
 
     demoServer: async function(req, res){
-        let rules = 5;
+        let rules = 60;
         let ver = '0005';
-        let message = ver + " This is Dcard project Demo 11/25 (5 for now) <br>";
+        let message = ver + " This is Dcard project Demo 11/25 | Limit: " + rules +"<br>";
 
         let ip  = req.header('x-forwarded-for') || req.connection.remoteAddress;
 

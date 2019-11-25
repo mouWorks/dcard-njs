@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
+"use strict";
 
+const express = require('express');
+const router = express.Router();
 const dcard = require('../modules/dcard');
 
 //DcardDemo
