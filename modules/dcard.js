@@ -47,7 +47,10 @@ module.exports = {
         message += "<br/>============================<br/>";
 
         //反查 1分鐘內 Ip 被記錄了幾次
-        let visitedTimes = await this.getIpcount(ip, aMonAgoTimeStamp);
+        let visitedTimes = await this.getIpcount(ip, aMonAgoTimeStamp).catch(error => {
+            message += "Error when calculating Previous visit! check DB connection";
+            res.send(message);
+        });
 
         if(this.exceedLimit(visitedTimes, rules)){
             message += '<br/>Exceed Time Limit !!';
@@ -56,16 +59,22 @@ module.exports = {
         }
 
         //紀錄你的Ip, 以及當下timeStamp
-        let recordIpResult = this.recordIp(ip, nowTimeStamp);
+        let recordIpResult = await this.recordIp(ip, nowTimeStamp);
 
-        message += "You Visited " +  visitedTimes  + " times within 60 secs";
+        if( ! recordIpResult){
+            message += "Error During Recording your IP ! check DB connection";
+        }
+        else{
+            message += "You Visited " +  visitedTimes  + " times within 60 secs";
+        }
+
         res.send(message);
     },
 
     recordIp: async function(ip, timestamp){
 
-        console.log('Recoding Current IP');
-        const db = require('async-db');
+        console.log('Recording Current IP: ' + ip);
+        const db = require('../modules/async-db');
 
         let query = "INSERT INTO `dcard-logs` SET ?";
         let values = {
@@ -75,19 +84,28 @@ module.exports = {
             status: '200'
         };
 
-        let result = await db.query(query, values);
+        let result = await db.query(query, values).catch(error => {
+            console.log(error);
+            return false;
+        });
+
+        return result;
     },
 
     getIpcount: async function(ip, timestamp){
 
-        const db = require('async-db');
+        const db = require('../modules/async-db');
 
         let query = "SELECT COUNT(id) as Times FROM `dcard-logs` WHERE ip = ? AND timestamp > ? AND queryString = ?";
         let values = [
             ip, timestamp, '/demo'
         ];
 
-        let result = await db.query(query, values);
+        // let result = await db.query(query, values);
+
+        let result = await db.query(query, values).catch(error => {
+            throw new Error(error);
+        });
 
         return result[0].Times;
     },
