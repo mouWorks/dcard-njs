@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 BRANCH := $(shell git name-rev --name-only HEAD)
 ENDPOINT := server.js
-SERVICE_NAME := cc
+SERVICE_NAME := dcard
 PORT := 3003
 CONFIG := ecosystem.config.js
 
