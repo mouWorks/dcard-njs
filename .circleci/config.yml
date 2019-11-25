@@ -44,15 +44,6 @@ jobs:
           name: Show Current Location
           command: pwd
 
-#      - run:
-#          name: Grant 1 MySQL user
-#          command:
-
-#      - run:
-#          name: Eject CI Environment File
-#          command: |
-#            echo -e "DB_USER=root\nDB_PASS=circleci\nDB_NAME=${DB_NAME}\nCHATROOM_ID=${CHATROOM_ID}\n" > .env
-
       - run:
           name: Just Run Migration command
           command: make migrate
@@ -85,10 +76,6 @@ jobs:
       - run:
           name: Copy the Update Script
           command: cp .circleci/circleci_update.sh /tmp
-
-      #      - run:
-      #          name: Adding SSH Keys
-      #          command: echo 'THE FINGERPRINT' >> ~/.ssh/known_hosts
 
       # Note: this one we Manually setup the SSH key
       # Create SSH-key @ DigitalOcean Server, then paste the pub key @CircleCI
