@@ -91,12 +91,22 @@ module.exports = {
             status: '200'
         };
 
-        let result = await db.query(query, values).catch(error => {
+        // let result = await db.query(query, values).catch(error => {
+        //     console.log(error);
+        //     return false;
+        // });
+        //
+        // return result;
+
+        try{
+
+            let result = await db.query(query, values);
+            return result;
+
+        }catch(error){
             console.log(error);
             return false;
-        });
-
-        return result;
+        }
     },
 
     getIpcount: async function(ip, timestamp){
