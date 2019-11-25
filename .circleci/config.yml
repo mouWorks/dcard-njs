@@ -10,10 +10,8 @@ jobs:
       - image: circleci/mariadb:10.3  #DB
         environment:
          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-         MYSQL_DATABASE: ${DB_NAME}
-         DB_USER: ${DB_USER}
-         DB_PASS: ${DB_PASS}
-#         MYSQL_ROOT_PASSWORD: 'circleci'
+         MYSQL_ROOT_PASSWORD: 'circleci'
+         MYSQL_DATABASE: 'mouWorks'
          TZ: "Asia/Taipei"  # Set The TimeZone
 
     working_directory: ~/dcard.m0u.work
@@ -47,9 +45,9 @@ jobs:
           command: pwd
 
       - run:
-          name: Eject .Env file
+          name: Eject CI Environment File
           command: |
-            echo -e "DB_USER=${DB_USER}\nDB_PASS=${DB_PASS}\nDB_NAME=${DB_NAME}\nCHATROOM_ID=${CHATROOM_ID}\n}" > .env
+            echo -e "DB_USER=root\nDB_PASS=${MYSQL_ROOT_PASSWORD}\nDB_NAME=${DB_NAME}\nCHATROOM_ID=${CHATROOM_ID}\n}" > .env
 
       - run:
           name: Just Run Migration command
@@ -62,6 +60,12 @@ jobs:
       - run:
           name: Run the Tests!
           command: make test
+
+      - run:
+          name: Eject .Env file
+          command: |
+            rm .env
+            echo -e "DB_USER=${DB_USER}\nDB_PASS=${DB_PASS}\nDB_NAME=${DB_NAME}\nCHATROOM_ID=${CHATROOM_ID}\n}" > .env
 
       - run:
           name: Packing the codes
