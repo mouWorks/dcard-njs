@@ -64,8 +64,14 @@ jobs:
           command: sudo npm install mocha -g
 
       - run:
-          name: Run the Tests!
-          command: make test
+          name: Install MySQL CLI; Import dummy data; run an example query
+          command: |
+            sudo apt-get install default-mysql-client
+            mysql -h 127.0.0.1 -u ${DB_USER} -p${DB_PASS} --execute="SELECT * FROM mouWorks.dcard-logs"
+
+#      - run:
+#          name: Run the Tests!
+#          command: make test
 
       - run:
           name: Eject .Env file
