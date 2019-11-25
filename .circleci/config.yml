@@ -49,15 +49,13 @@ jobs:
           command: |
             echo -e "DB_USER=${DB_USER}\nDB_PASS=${DB_PASS}\nDB_NAME=${DB_NAME}\nCHATROOM_ID=${CHATROOM_ID}\n}" > .env
 
-#      - run:
-#          name: Install pug-cli (Glocal)
-#          command: sudo npm install pug-cli -g
-#      - run:
-#          name: Build Frontend Html
-#          command: make html-pack
       - run:
           name: Just Run Migration command
           command: make migrate-ci
+
+      - run:
+          name: Run the Tests!
+          command: make test
 
       - run:
           name: Packing the codes
