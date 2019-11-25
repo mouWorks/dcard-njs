@@ -50,7 +50,7 @@ migrate:
 
 # CircleCI Env
 migrate-ci:
-    node node_modules/db-migrate/bin/db-migrate up --config database.json -e circleci
+	node node_modules/db-migrate/bin/db-migrate up --config database.json -e circleci
 
 # Migration-Production
 migrate-prod:
