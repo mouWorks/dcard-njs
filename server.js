@@ -1,6 +1,6 @@
 "use strict";
 
-// require('dotenv').config();
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const app = express();
@@ -9,9 +9,11 @@ const mysql = require('mysql');
 const cors = require('cors');
 const path = require('path');
 
-console.log('Hey Dcard 0002');
+let version = '0004';
 
-let message = 'Dcard Demo @port 3003';
+console.log('Hey Dcard'+ version);
+
+let message = 'Dcard Demo @port' + version;
 
 app.get('/', (req, res) => res.send(message));
 
