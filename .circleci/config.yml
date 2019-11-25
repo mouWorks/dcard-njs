@@ -48,9 +48,9 @@ jobs:
           name: Show Current Location
           command: pwd
 
-      - run:
-          name: Grant 1 MySQL user
-          command:
+#      - run:
+#          name: Grant 1 MySQL user
+#          command:
 
 #      - run:
 #          name: Eject CI Environment File
