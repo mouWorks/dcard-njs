@@ -9,9 +9,9 @@ build:
 	@echo ">>> Builing packages"
 	npm install
 
-html-pack:
-	@echo ">>> Generate Static Html"
-	pug views/pug --out static/html
+# html-pack:
+# 	@echo ">>> Generate Static Html"
+# 	pug views/pug --out static/html
 
 restart: stop start
 	@echo ">>> Restart NodeJS Service by PM2"
