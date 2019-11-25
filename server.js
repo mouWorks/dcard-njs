@@ -9,6 +9,8 @@ const mysql = require('mysql');
 const cors = require('cors');
 const path = require('path');
 
+console.log('Hey Dcard 0001');
+
 let message = 'Dcard Demo @port 3003';
 
 app.get('/', (req, res) => res.send(message));

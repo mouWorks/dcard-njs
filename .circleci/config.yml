@@ -38,7 +38,7 @@ jobs:
       - run:
           name: Eject .Env file
           command: |
-            echo -e "DB_USER=${DB_USER}\nDB_PASS=${DB_PASS}\nDB_NAME=${DB_NAME}\nCHATROOM_ID=${CHATROOM_ID}\nLINE_BEARER=${LINE_BEARER}" > .env
+            echo -e "DB_USER=${DB_USER}\nDB_PASS=${DB_PASS}\nDB_NAME=${DB_NAME}\nCHATROOM_ID=${CHATROOM_ID}\n}" > .env
 
 #      - run:
 #          name: Install pug-cli (Glocal)
