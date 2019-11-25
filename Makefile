@@ -43,3 +43,13 @@ push: test
 
 test:
 	node --check $(ENDPOINT)
+
+# Migration
+migrate:
+	node node_modules/db-migrate/bin/db-migrate up
+
+# Migration-Production
+migrate-prod:
+	node node_modules/db-migrate/bin/db-migrate up --config database.json -e prod
+
+
