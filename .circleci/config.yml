@@ -11,8 +11,6 @@ jobs:
         environment:
          MYSQL_ALLOW_EMPTY_PASSWORD: yes
          MYSQL_DATABASE: 'mouWorks'
-         MYSQL_USER: echo ${DB_USER}
-         MYSQL_PASSWORD: echo ${DB_USER}
          MYSQL_ROOT_PASSWORD: 'circleci'
          TZ: "Asia/Taipei"  # Set The TimeZone
 
@@ -68,11 +66,12 @@ jobs:
           command: |
             sudo apt-get update
             sudo apt install mysql-client
-            mysql -h 127.0.0.1 -u ${DB_USER} -p${DB_PASS} --execute="SELECT * FROM mouWorks.dcard-logs"
+            mysql -h 127.0.0.1 -u root -pcircleci --execute="CREATE USER '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASS}';"
+            mysql -h 127.0.0.1 -u root -pcircleci --execute="GRANT ALL PRIVILEGES ON *.* TO '${DB_USER}'@'localhost';"
 
-#      - run:
-#          name: Run the Tests!
-#          command: make test
+      - run:
+          name: Run the Tests!
+          command: make test
 
       - run:
           name: Eject .Env file
