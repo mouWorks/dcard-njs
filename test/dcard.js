@@ -23,7 +23,21 @@ describe('DCard Demo Test', () => {
         done();
     });
 
-    it('', done => {
+    it('判斷規則, 當數量小於 Limit 則應該 Pass (判斷為 false)', done => {
+
+        let Limit = 60;
+        let condition = 59;
+        let checkLimit = dcard.exceedLimit(condition, Limit);
+        checkLimit.should.be.false();
+        done();
+    });
+
+    it('判斷規則, 當數量等於 Limit 則應該 Fail  (判斷為 true)', done => {
+
+        let Limit = 60;
+        let condition = 60;
+        let checkLimit = dcard.exceedLimit(condition, Limit);
+        checkLimit.should.be.true();
         done();
     });
 

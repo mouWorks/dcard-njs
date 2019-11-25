@@ -33,7 +33,7 @@ module.exports = {
     },
 
     demoServer: async function(req, res){
-        let rules = 10;
+        let rules = 60;
         let ver = '0005';
         let message = ver + " This is Dcard project Demo 11/25 <br>";
 
@@ -78,8 +78,6 @@ module.exports = {
         let query = "INSERT INTO `dcard-logs` SET ?";
 
         let result = await db.query(query, values);
-
-        // console.log(result);
     },
 
     getIpcount: async function(ip, timestamp){
