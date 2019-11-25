@@ -11,7 +11,7 @@ jobs:
         environment:
          MYSQL_ALLOW_EMPTY_PASSWORD: yes
          MYSQL_ROOT_PASSWORD: 'circleci'
-         MYSQL_DATABASE: COMPANY_DB
+         MYSQL_DATABASE: 'mouWorks'
          TZ: "Asia/Taipei"  # Set The TimeZone
 
     working_directory: ~/dcard.m0u.work
