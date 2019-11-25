@@ -15,7 +15,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "ca:11:b1:f5:55:80:c7:f1:4f:71:51:92:a5:e1:ac:71" # DigitalOcean Manually created this key
+            - "9e:b2:7d:7f:da:69:a4:7f:e6:a8:92:33:76:a1:31:e4" # DigitalOcean Manually created this key
 
       - restore_cache:
           keys:
