@@ -47,7 +47,7 @@ jobs:
       - run:
           name: Eject CI Environment File
           command: |
-            echo -e "DB_USER=root\nDB_PASS=${MYSQL_ROOT_PASSWORD}\nDB_NAME=${DB_NAME}\nCHATROOM_ID=${CHATROOM_ID}\n}" > .env
+            echo -e "DB_USER=root\nDB_PASS=circleci\nDB_NAME=${DB_NAME}\nCHATROOM_ID=${CHATROOM_ID}\n" > .env
 
       - run:
           name: Just Run Migration command
