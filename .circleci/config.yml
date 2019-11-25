@@ -10,8 +10,10 @@ jobs:
       - image: circleci/mariadb:10.3  #DB
         environment:
          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-         MYSQL_ROOT_PASSWORD: 'circleci'
-         MYSQL_DATABASE: 'mouWorks'
+         MYSQL_DATABASE: ${DB_NAME}
+         DB_USER: ${DB_USER}
+         DB_PASS: ${DB_PASS}
+#         MYSQL_ROOT_PASSWORD: 'circleci'
          TZ: "Asia/Taipei"  # Set The TimeZone
 
     working_directory: ~/dcard.m0u.work

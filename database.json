@@ -8,9 +8,15 @@
   },
   "circleci": {
     "driver": "mysql",
-    "user": "root",
-    "password": "circleci",
-    "database": "mouWorks",
+    "user": {
+      "ENV": "DB_USER"
+    },
+    "password": {
+      "ENV": "DB_PASS"
+    },
+    "database": {
+      "ENV": "DB_NAME"
+    },
     "multipleStatements": true
   },
   "prod": {
