@@ -68,6 +68,20 @@ describe('DCard Demo Test', () => {
         ipCount.should.eql(3);
     });
 
+    after(async function(){
+        console.log('>>> CleanUp DB');
+
+        const db = require('../modules/async-db');
+
+        let query = "DELETE FROM `dcard-logs` WHERE ip LIKE ?";
+        let values = [
+            '127.0.0%'
+        ];
+
+        let result = await db.query(query, values);
+        console.log('>>> Rows Cleanedup: [' + result.affectedRows +']');
+    })
+
 })
 
 
