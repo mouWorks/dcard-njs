@@ -42,14 +42,21 @@ describe('DCard Demo Test', () => {
         done();
     });
 
-    it('測試, 未紀錄IP情況下, 撈取ip 紀錄應該為0', async function(){
+    it('DB, 未紀錄IP情況下, 撈取ip 紀錄應該為0', async function(){
 
         let ip = '127.0.0.1';
         let ipCount = await dcard.getIpcount(ip, dcard.getTimeStamp());
         ipCount.should.eql(0);
     });
 
-    it('測試, 試著塞入三筆, 則撈取紀錄應該為 3', async function(){
+    it('DB, 試著塞入一筆, 傳回結果應該為一個物件(Object)', async function(){
+
+        let dummyIp = '127.0.0.2';
+        let result = await dcard.recordIp(dummyIp,dcard.getTimeStamp());
+        result.should.be.Object();
+    });
+
+    it('DB, 試著塞入三筆, 則撈取紀錄應該為 3', async function(){
 
         let dummyIp = '127.0.0.4';
 
