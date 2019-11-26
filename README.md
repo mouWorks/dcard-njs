@@ -4,7 +4,8 @@
 #### CI Status [![CircleCI](https://circleci.com/gh/mouWorks/dcard-njs/tree/master.svg?style=svg)](https://circleci.com/gh/mouWorks/dcard-njs/tree/master)
 
 #### How to Access
-* visit [Link](https://dcard.m0u.work/demo)
+* visit [Link](https://dcard.m0u.work/demo) (Mysql)
+* visit [Link](https://dcard.m0u.work/r) (Redis)
 
 #### Rules
 * Every Single IP can access the link 60 times per minute
@@ -13,12 +14,13 @@
 #### Table Schema
 
 * Table `dcard-logs`
+
 | Name | Desc | Type |
 |:-----|:------|:-----|
 |id|id|int|
 |ip|User Ip位置|string|
 |queryString|QueryString|string|
-|status|Https StatusCode|string|
+|status|HttpsStatusCode|string|
 |timestamp|timestamp|string|
 
 #### How it works
