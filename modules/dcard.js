@@ -27,8 +27,12 @@ module.exports = {
 
         await redis.redisSet(key, timeStamp);
 
-        let displayResult = times +1;
-        msg += 'VisitedTimes: ' + displayResult;
+        if(times == 0){
+            msg += 'FirstTime Visit';
+        }else{
+            let display = times + 1;
+            msg += '# ' + display;
+        }
 
         res.send(msg);
     },
@@ -102,11 +106,15 @@ module.exports = {
             return;
         }
 
-        //SuccessCase;
-        message += "You Visited " +  visitedTimes  + " times within 60 secs";
-        res.send(message);
-        return;
+        //SuccessCase:
+        if(visitedTimes == 0){
+            message += 'FirstTime Visit';
+        }else{
+            let display = visitedTimes + 1 ;
+            message += "# " +  display ;
+        }
 
+        res.send(message);
     },
 
     recordIp: async function(ip, timestamp){
@@ -121,13 +129,6 @@ module.exports = {
             timestamp: timestamp,
             status: '200'
         };
-
-        // let result = await db.query(query, values).catch(error => {
-        //     console.log(error);
-        //     return false;
-        // });
-        //
-        // return result;
 
         try{
 
@@ -159,11 +160,5 @@ module.exports = {
             return false;
         }
     },
-
-    //just for checking....
-    checkAsync : async function()
-    {
-        return true;
-    }
 
 }//end of module exports
