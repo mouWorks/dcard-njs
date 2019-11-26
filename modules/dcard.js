@@ -19,7 +19,7 @@ module.exports = {
 
         let times = Object.keys(result).length;
 
-        if(times >= limitTimes){
+        if(this.exceedLimit(times, limitTimes)){
             msg += '<br><h1>Error ! Exceed Limit</h1>';
             res.send(msg);
             return;
