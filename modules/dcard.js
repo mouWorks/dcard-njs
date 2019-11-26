@@ -2,6 +2,37 @@
 
 module.exports = {
 
+    demo_redis: async function (req, res){
+
+        let msg;
+        let limitTimes = 20;
+
+        const redis = require('../modules/redis');
+
+        let ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+        msg = 'Dcard Demo (Redis) <br> Your IP is : [' + ip + ']<br>';
+
+        let timeStamp = this.getTimeStamp();
+
+        let key = ip + '_' + timeStamp;
+        let result = await redis.redisKeys(ip);
+
+        let times = Object.keys(result).length;
+
+        if(times >= limitTimes){
+            msg += 'Error ! Exceed Limit';
+            res.send(msg);
+            return;
+        }
+
+        await redis.redisSet(key, timeStamp);
+
+        let displayResult = times +1;
+        msg += 'VisitedTimes: ' + displayResult;
+
+        res.send(msg);
+    },
+
     check: function (req, res){
 
         const db = require('../modules/async-db');

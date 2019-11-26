@@ -8,4 +8,6 @@ const dcard = require('../modules/dcard');
 router.get('/check', (req, res) => dcard.check(req, res));
 router.get('/demo', (req, res) => dcard.demoServer(req, res));
 
+router.get('/r', (req, res) => dcard.demo_redis(req, res));
+
 module.exports = router;
