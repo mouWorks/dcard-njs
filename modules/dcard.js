@@ -5,7 +5,7 @@ module.exports = {
     demo_redis: async function (req, res){
 
         let msg;
-        let limitTimes = 20;
+        let limitTimes = 60;
 
         const redis = require('../modules/redis');
 
@@ -20,7 +20,7 @@ module.exports = {
         let times = Object.keys(result).length;
 
         if(times >= limitTimes){
-            msg += 'Error ! Exceed Limit';
+            msg += '<br><h1>Error ! Exceed Limit</h1>';
             res.send(msg);
             return;
         }
