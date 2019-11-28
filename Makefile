@@ -56,7 +56,7 @@ test:
 	node --check $(ENDPOINT) && \
 	node --check modules/async-db.js && \
 	node --check modules/dcard.js && \
-	mocha
+#	mocha
 
 cp_conf: |
 	mkdir /tmp/sql && mkdir /tmp/conf && \
