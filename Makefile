@@ -60,8 +60,9 @@ test:
 
 cp_conf: |
 	mkdir /tmp/sql && mkdir /tmp/conf && \
-	cp sql/init.sql /tmp/sql/
-	mv .envLocal .env
+	cp sql/init.sql /tmp/sql/ && \
+	rm .env && \
+	cp .envLocal .env
 
 destroy:
 	@echo ">>> Destroy Services ......(Containers)"
