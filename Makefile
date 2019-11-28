@@ -32,7 +32,7 @@ docker-stop:
 	@echo ">>> Stop container......"
 	docker-compose stop && rm -r /tmp/conf && rm -r /tmp/sql
 
-start: docker-start
+start: docker-start local-start
 	@echo ">>> Starting Server"
 
 stop: docker-stop
