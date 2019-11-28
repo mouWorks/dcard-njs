@@ -7,6 +7,9 @@
 * visit [Link](https://dcard.m0u.work/demo) (Mysql)
 * visit [Link](https://dcard.m0u.work/r) (Redis)
 
+#### Local 
+* Check [Doc](doc/Local.md)
+
 #### Rules
 * Every Single IP can access the link 60 times per minute
 * Once Reached Limit user will see an error display.

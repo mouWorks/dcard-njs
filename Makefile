@@ -63,7 +63,9 @@ cp_conf: |
 
 destroy:
 	@echo ">>> Destroy Services ......(Containers)"
-	docker-compose down --remove-orphans
+	docker-compose down --remove-orphans && \
+	rm -r /tmp/sql && \
+	rm -r /tmp/conf
 
 # Migration
 migrate:
