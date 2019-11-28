@@ -55,7 +55,7 @@ push: test
 test:
 	node --check $(ENDPOINT) && \
 	node --check modules/async-db.js && \
-	node --check modules/dcard.js && \
+	node --check modules/dcard.js
 #	mocha
 
 cp_conf: |
