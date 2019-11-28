@@ -32,23 +32,21 @@ docker-stop:
 	@echo ">>> Stop container......"
 	docker-compose stop && rm -r /tmp/conf && rm -r /tmp/sql
 
-start: docker-start pm2-start
+start: docker-start
 	@echo ">>> Starting Server"
 
-stop: pm2-stop docker-stop
+stop: docker-stop
 	@echo ">>> Stopping Server"
 
-pm2-start:
-    NODE_PORT=$(PORT) pm2 start $(ENDPOINT) --name $(SERVICE_NAME)
-
-pm2-stop:
-    NODE_PORT=$(PORT) pm2 stop $(SERVICE_NAME)
+local-start:
+	@echo ">>> Starting NodeJS local server"
+	node server.js --3003
 
 pull:
 	@echo ">>> Pull Code on Current branch [$(BRANCH)]"
 	git pull origin $(BRANCH) --rebase
 
-push: test
+push:
 	@echo ">>> Current branch [$(BRANCH)] Pushing Code"
 	git push origin $(BRANCH)
 
@@ -56,7 +54,7 @@ test:
 	node --check $(ENDPOINT) && \
 	node --check modules/async-db.js && \
 	node --check modules/dcard.js
-#	mocha
+	mocha
 
 cp_conf: |
 	mkdir /tmp/sql && mkdir /tmp/conf && \
