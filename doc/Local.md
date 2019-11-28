@@ -18,3 +18,5 @@
 3. `PLEASE WAIT 10 Secs` for DB to init
 4. `make migrate` -> run the migration to create table locally
 5. Visit `localhost:3003/demo` ->  should see the MySQL result.
+6. CLEAN up: `npm run stop` 
+    * same as `make stop`
