@@ -1,0 +1,30 @@
+version: '3'
+services:
+  dcard_dev_redis:
+    container_name: dcard_dev_redis
+    restart: always
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - dcard_dev_docker_network
+  dcard_dev_mysql:
+    container_name: dcard_dev_mysql
+    restart: always
+    image: mariadb:10.3
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    volumes:
+      - /tmp/my.cnf:/etc/my.cnf
+      - ./sql:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=homestead
+      - MYSQL_PASSWORD=${DB_PASS}
+    networks:
+      - dcard_dev_docker_network
+
+networks:
+  dcard_dev_docker_network:

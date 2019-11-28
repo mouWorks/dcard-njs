@@ -7,13 +7,13 @@ CONFIG := ecosystem.config.js
 
 .PHONY: test
 
-build:
+container-build:
+	@echo ">>> Build Services (Docker Container)......"
+	docker-compose build --parallel
+
+build: container-build
 	@echo ">>> Builing packages"
 	npm install
-
-# html-pack:
-# 	@echo ">>> Generate Static Html"
-# 	pug views/pug --out static/html
 
 restart: stop start
 	@echo ">>> Restart NodeJS Service by PM2"
@@ -23,13 +23,23 @@ reload:
 	@echo ">>> Reload PM2 Service"
 	pm2 reload $(CONFIG)
 
-stop:
-	@echo ">>> Stopping Server"
-	NODE_PORT=$(PORT) pm2 stop $(ENDPOINT)
+docker-start:
+	docker-compose up -d --no-recreate
+	@echo ">>> Start: Visit http://localhost:3003 ...."
 
-start:
+# For Ubuntu Server
+docker-stop:
+	@echo ">>> Stop container......"
+	docker-compose stop && rm -r /tmp/default.conf
+
+# Use this for local
+start: docker-start
 	@echo ">>> Starting Server"
 	NODE_PORT=$(PORT) pm2 start $(ENDPOINT) --name $(SERVICE_NAME)
+
+stop: docker-stop
+	@echo ">>> Stopping Server"
+	NODE_PORT=$(PORT) pm2 stop $(SERVICE_NAME)
 
 local:
 	@echo ">>> Running Local env"
@@ -49,6 +59,16 @@ test:
 	node --check modules/dcard.js && \
 	mocha
 
+cp_conf: |
+	cp _conf/my.cnf /tmp
+
+destroy:
+	@echo ">>> Destroy Services ......(Containers)"
+	docker-compose down --remove-orphans
+cleanup: destroy
+	@echo ">>> Destroy Services ......(Images)"
+	docker-compose down --rmi 'all'
+
 # Migration
 migrate:
 	node node_modules/db-migrate/bin/db-migrate up
@@ -60,5 +80,4 @@ migrate-ci:
 # Migration-Production
 migrate-prod:
 	node node_modules/db-migrate/bin/db-migrate up --config database.json -e prod
-
 
