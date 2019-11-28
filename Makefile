@@ -30,7 +30,7 @@ docker-start: cp_conf
 # For Ubuntu Server
 docker-stop:
 	@echo ">>> Stop container......"
-	docker-compose stop && rm -r /tmp/conf && rm -r /tmp/sql
+	docker-compose stop && rm -r /tmp/conf && rm -r /tmp/sql && docker rm dcard_demo_mysql && docker rm dcard_demo_redis
 
 start: docker-start local-start
 	@echo ">>> Starting Server"
