@@ -23,27 +23,26 @@ reload:
 	@echo ">>> Reload PM2 Service"
 	pm2 reload $(CONFIG)
 
-docker-start:
+docker-start: cp_conf
 	docker-compose up -d --no-recreate
 	@echo ">>> Start: Visit http://localhost:3003 ...."
 
 # For Ubuntu Server
 docker-stop:
 	@echo ">>> Stop container......"
-	docker-compose stop && rm -r /tmp/default.conf
+	docker-compose stop && rm -r /tmp/conf && rm -r /tmp/sql
 
-# Use this for local
-start: docker-start
+start: docker-start pm2-start
 	@echo ">>> Starting Server"
-	NODE_PORT=$(PORT) pm2 start $(ENDPOINT) --name $(SERVICE_NAME)
 
-stop: docker-stop
+stop: pm2-stop docker-stop
 	@echo ">>> Stopping Server"
-	NODE_PORT=$(PORT) pm2 stop $(SERVICE_NAME)
 
-local:
-	@echo ">>> Running Local env"
-	nodemon $(ENDPOINT)
+pm2-start:
+    NODE_PORT=$(PORT) pm2 start $(ENDPOINT) --name $(SERVICE_NAME)
+
+pm2-stop:
+    NODE_PORT=$(PORT) pm2 stop $(SERVICE_NAME)
 
 pull:
 	@echo ">>> Pull Code on Current branch [$(BRANCH)]"
@@ -60,14 +59,13 @@ test:
 	mocha
 
 cp_conf: |
-	cp _conf/my.cnf /tmp
+	mkdir /tmp/sql && mkdir /tmp/conf && \
+	cp sql/init.sql /tmp/sql/
+	mv .envLocal .env
 
 destroy:
 	@echo ">>> Destroy Services ......(Containers)"
 	docker-compose down --remove-orphans
-cleanup: destroy
-	@echo ">>> Destroy Services ......(Images)"
-	docker-compose down --rmi 'all'
 
 # Migration
 migrate:

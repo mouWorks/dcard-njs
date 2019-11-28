@@ -13,16 +13,11 @@ services:
     restart: always
     image: mariadb:10.3
     command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
-    volumes:
-      - /tmp/my.cnf:/etc/my.cnf
-      - ./sql:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=${DB_NAME}
-      - MYSQL_USER=homestead
-      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_ROOT_PASSWORD=circleci
+      - MYSQL_DATABASE=mouWorks
     networks:
       - dcard_dev_docker_network
 

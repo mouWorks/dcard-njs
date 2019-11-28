@@ -1,6 +1,6 @@
 "use strict";
 
-require('dotenv').config();
+require('dotenv').config({ path: '/full/custom/path/to/your/env/vars' });
 
 const mysql = require('mysql');
 const pool = mysql.createPool({
