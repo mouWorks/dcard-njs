@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:12.9
-      - image: circleci/mariadb:10.3  #DB
+      - image: circleci/mariadb:10.3-ram  #DB
         environment:
          MYSQL_ALLOW_EMPTY_PASSWORD: yes
          MYSQL_DATABASE: 'mouWorks'
