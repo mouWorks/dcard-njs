@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "make start",
+    "build": "make build",
+    "stop": "make destroy"
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,7 @@
     "morgan": "^1.9.1",
     "mysql": "^2.17.1",
     "path": "^0.12.7",
+    "pm2": "^4.2.0",
     "redis": "^2.8.0",
     "should": "^13.2.3"
   },

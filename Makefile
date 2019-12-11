@@ -7,13 +7,13 @@ CONFIG := ecosystem.config.js
 
 .PHONY: test
 
-build:
+container-build:
+	@echo ">>> Build Services (Docker Container)......"
+	docker-compose build --parallel
+
+build: container-build
 	@echo ">>> Builing packages"
 	npm install
-
-# html-pack:
-# 	@echo ">>> Generate Static Html"
-# 	pug views/pug --out static/html
 
 restart: stop start
 	@echo ">>> Restart NodeJS Service by PM2"
@@ -23,31 +23,49 @@ reload:
 	@echo ">>> Reload PM2 Service"
 	pm2 reload $(CONFIG)
 
-stop:
-	@echo ">>> Stopping Server"
-	NODE_PORT=$(PORT) pm2 stop $(ENDPOINT)
+docker-start: cp_conf
+	docker-compose up -d --no-recreate
+	@echo ">>> Start: Visit http://localhost:3003 ...."
 
-start:
+# For Ubuntu Server
+docker-stop:
+	@echo ">>> Stop container......"
+	docker-compose stop && rm -r /tmp/conf && rm -r /tmp/sql && docker rm dcard_demo_mysql && docker rm dcard_demo_redis
+
+start: docker-start local-start
 	@echo ">>> Starting Server"
-	NODE_PORT=$(PORT) pm2 start $(ENDPOINT) --name $(SERVICE_NAME)
 
-local:
-	@echo ">>> Running Local env"
-	nodemon $(ENDPOINT)
+stop: docker-stop
+	@echo ">>> Stopping Server"
+
+local-start:
+	@echo ">>> Starting NodeJS local server"
+	node server.js --3003
 
 pull:
 	@echo ">>> Pull Code on Current branch [$(BRANCH)]"
 	git pull origin $(BRANCH) --rebase
 
-push: test
+push:
 	@echo ">>> Current branch [$(BRANCH)] Pushing Code"
 	git push origin $(BRANCH)
 
 test:
 	node --check $(ENDPOINT) && \
 	node --check modules/async-db.js && \
-	node --check modules/dcard.js && \
+	node --check modules/dcard.js
 	mocha
+
+cp_conf: |
+	mkdir /tmp/sql && mkdir /tmp/conf && \
+	cp sql/init.sql /tmp/sql/ && \
+	cp .envLocal .env
+
+destroy:
+	@echo ">>> Destroy Services ......(Containers)"
+	docker-compose down --remove-orphans && \
+	rm -r /tmp/sql && \
+	rm -r /tmp/conf
 
 # Migration
 migrate:
@@ -60,5 +78,4 @@ migrate-ci:
 # Migration-Production
 migrate-prod:
 	node node_modules/db-migrate/bin/db-migrate up --config database.json -e prod
-
 
